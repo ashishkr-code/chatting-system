@@ -1,0 +1,12 @@
+target/
+*.class
+*.log
+.idea/
+*.iml
+.vscode/
+
+# Frontend
+client-web/node_modules/
+client-web/dist/
+.DS_Store
+Thumbs.db

@@ -251,9 +251,10 @@ public class ChatServer extends WebSocketServer {
     }
 
     public static void main(String[] args) {
-        int port = 5000;
+        String portEnv = System.getenv("PORT");
+        int port = (portEnv != null && !portEnv.isEmpty()) ? Integer.parseInt(portEnv) : 5000;
         ChatServer server = new ChatServer(port);
         server.start();
-        System.out.println("WebSocket Server is running...");
+        System.out.println("WebSocket Server is running on port " + port);
     }
 }

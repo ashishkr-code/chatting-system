@@ -95,7 +95,8 @@ function App() {
   }, [xIsNext, isGameOpen, winner])
 
   const connectWebSocket = () => {
-    ws.current = new WebSocket('ws://localhost:5000')
+    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:5000'
+    ws.current = new WebSocket(wsUrl)
 
     ws.current.onopen = () => {
       if (isLoginTab) ws.current.send(JSON.stringify({ type: 'LOGIN', sender: username, receiver: 'SERVER', content: password }))

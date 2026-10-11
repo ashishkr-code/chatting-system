@@ -123,7 +123,11 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 2. On Render Dashboard: Create **New Web Service** → Connect this repo.
 3. Choose **Docker** as the Runtime.
 4. Set Region to **Singapore** and Instance to **Free**.
-5. Render will automatically build the Fat JAR and run the service.
+5. Add **Environment Variables** (Security Best Practice):
+   * `DB_URL`: `jdbc:mysql://<HOST>:<PORT>/<DATABASE>?sslMode=VERIFY_IDENTITY&useSSL=true`
+   * `DB_USERNAME`: `<YOUR_USERNAME>`
+   * `DB_PASSWORD`: `<YOUR_PASSWORD>`
+6. Render will automatically build the Fat JAR and run the service.
 
 ### Frontend on Render (Static Site)
 1. On Render Dashboard: Create **New Static Site** → Connect this repo.

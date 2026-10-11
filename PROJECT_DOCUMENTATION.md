@@ -288,7 +288,11 @@ Files are encoded to Base64 data URLs on the client, transmitted via the WebSock
 3. Select `ashishkr-code/chatting-system` repository.
 4. Runtime: **Docker**.
 5. Instance Type: **Free**.
-6. The service starts on port 10000 and exposes public URL `https://<service-name>.onrender.com`.
+6. **Environment Variables** (Security Best Practice):
+   * `DB_URL`: `jdbc:mysql://<HOST>:<PORT>/<DATABASE>?sslMode=VERIFY_IDENTITY&useSSL=true`
+   * `DB_USERNAME`: `<YOUR_DB_USERNAME>`
+   * `DB_PASSWORD`: `<YOUR_DB_PASSWORD>`
+7. The service starts on port 10000 and exposes public URL `https://<service-name>.onrender.com`.
 
 ### 9.3 Frontend Deployment (Render Static Site)
 1. On Render Dashboard: **New +** → **Static Site**.

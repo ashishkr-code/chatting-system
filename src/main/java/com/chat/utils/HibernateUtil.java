@@ -27,11 +27,20 @@ public class HibernateUtil {
 
                 Configuration configuration = new Configuration();
                 
-                // Set Hibernate properties programmatically using values from application.properties
+                // Environment Variables priority (12-Factor standard for Cloud Production)
+                String envUrl = System.getenv("DB_URL");
+                String envUser = System.getenv("DB_USERNAME");
+                String envPass = System.getenv("DB_PASSWORD");
+
+                String dbUrl = (envUrl != null && !envUrl.trim().isEmpty()) ? envUrl : prop.getProperty("db.url");
+                String dbUser = (envUser != null && !envUser.trim().isEmpty()) ? envUser : prop.getProperty("db.username");
+                String dbPass = (envPass != null && !envPass.trim().isEmpty()) ? envPass : prop.getProperty("db.password");
+
+                // Set Hibernate properties programmatically
                 configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-                configuration.setProperty("hibernate.connection.url", prop.getProperty("db.url"));
-                configuration.setProperty("hibernate.connection.username", prop.getProperty("db.username"));
-                configuration.setProperty("hibernate.connection.password", prop.getProperty("db.password"));
+                configuration.setProperty("hibernate.connection.url", dbUrl);
+                configuration.setProperty("hibernate.connection.username", dbUser);
+                configuration.setProperty("hibernate.connection.password", dbPass);
                 configuration.setProperty("hibernate.hbm2ddl.auto", prop.getProperty("hibernate.hbm2ddl.auto"));
                 configuration.setProperty("hibernate.show_sql", prop.getProperty("hibernate.show_sql"));
                 

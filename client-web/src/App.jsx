@@ -21,6 +21,7 @@ function App() {
   
   const [currentMessage, setCurrentMessage] = useState('')
   const [selectedChat, setSelectedChat] = useState('GLOBAL') 
+  const [mobileView, setMobileView] = useState('sidebar') // 'sidebar' | 'chat'
   const [replyingTo, setReplyingTo] = useState(null)
   
   const [globalMessages, setGlobalMessages] = useState([])
@@ -215,9 +216,33 @@ function App() {
   const blockUser = (user) => { if(ws.current) { ws.current.send(JSON.stringify({ type: 'BLOCK_USER', sender: username, receiver: 'SERVER', content: user })); if(selectedChat===user) setSelectedChat('GLOBAL') } }
   const unblockUser = (user) => { if(ws.current) ws.current.send(JSON.stringify({ type: 'UNBLOCK_USER', sender: username, receiver: 'SERVER', content: user })) }
 
+  const handleLogout = () => {
+    if (isInCall) endCall()
+    if (ws.current) {
+      ws.current.close()
+      ws.current = null
+    }
+    setIsLoggedIn(false)
+    setUsername('')
+    setPassword('')
+    setFullName('')
+    setSelectedChat('GLOBAL')
+    setMobileView('sidebar')
+    setGlobalMessages([])
+    setPrivateMessages({})
+    setFriends([])
+    setActiveUsers([])
+    setUserProfiles({})
+    setBlockedUsers([])
+    setPendingRequests([])
+    setSearchResults([])
+    setErrorMsg('')
+  }
+
   const selectUser = (user) => {
     if (user === username) return
     setSelectedChat(user)
+    setMobileView('chat')
     if (ws.current) ws.current.send(JSON.stringify({ type: 'GET_PRIVATE_HISTORY', sender: username, receiver: 'SERVER', content: user }))
   }
 
@@ -398,17 +423,18 @@ function App() {
 
   return (
     <div className="app-wrapper">
-      <div className="chat-container">
+      <div className={`chat-container show-${mobileView}`}>
         <div className="sidebar">
           <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div className="profile-pic-container" onClick={() => profilePicRef.current.click()}>
               <img src={userProfiles[username]?.profilePic || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'} alt="Profile" className="profile-pic" />
               <input type="file" ref={profilePicRef} style={{ display: 'none' }} accept="image/*" onChange={handleProfilePicSelect} />
             </div>
-            <h3>{username}</h3>
+            <h3 style={{ margin: 0 }}>{username}</h3>
+            <button className="logout-btn" onClick={handleLogout} title="Logout">🚪 Logout</button>
           </div>
           <div className="chat-menu">
-            <div className={`menu-item ${selectedChat === 'GLOBAL' ? 'selected' : ''}`} onClick={() => setSelectedChat('GLOBAL')}>
+            <div className={`menu-item ${selectedChat === 'GLOBAL' ? 'selected' : ''}`} onClick={() => { setSelectedChat('GLOBAL'); setMobileView('chat'); }}>
               🌍 Global Chat
             </div>
             
@@ -472,9 +498,10 @@ function App() {
         
         <div className="main-chat">
           <div className="chat-header">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button className="mobile-back-btn" onClick={() => setMobileView('sidebar')} title="Back to Chats">←</button>
               {selectedChat !== 'GLOBAL' && targetInfo && (
-                <img src={targetInfo.profilePic || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'} alt="dp" style={{ width: '45px', height: '45px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #667eea' }} />
+                <img src={targetInfo.profilePic || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'} alt="dp" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #667eea' }} />
               )}
               <div>
                 <h2 style={{ margin: 0, color: '#333' }}>{selectedChat === 'GLOBAL' ? '🌍 Global Chat' : selectedChat}</h2>

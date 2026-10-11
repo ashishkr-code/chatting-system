@@ -418,3 +418,118 @@ body {
 .incoming-call-banner button { padding: 6px 12px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-left: 10px; }
 .incoming-call-banner .accept { background: #10b981; }
 .incoming-call-banner .reject { background: #ef4444; }
+
+/* --- Logout Button & Mobile Back Button --- */
+.logout-btn {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.logout-btn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+}
+
+.mobile-back-btn {
+  display: none;
+  background: #f3f4f6;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  margin-right: 10px;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.mobile-back-btn:hover {
+  background: #e5e7eb;
+}
+
+/* --- Responsive Mobile View Adjustments --- */
+@media (max-width: 768px) {
+  body {
+    overflow: auto;
+  }
+  .app-wrapper {
+    padding: 0;
+    height: 100dvh;
+    height: 100vh;
+  }
+  .chat-container {
+    height: 100dvh;
+    height: 100vh;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .chat-container.show-sidebar .sidebar {
+    display: flex;
+    width: 100%;
+  }
+  .chat-container.show-sidebar .main-chat {
+    display: none;
+  }
+  .chat-container.show-chat .sidebar {
+    display: none;
+  }
+  .chat-container.show-chat .main-chat {
+    display: flex;
+    width: 100%;
+  }
+  .mobile-back-btn {
+    display: inline-flex;
+  }
+  .message-bubble {
+    max-width: 85%;
+    word-break: break-word;
+  }
+  .input-area {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  .input-area input[type="text"] {
+    font-size: 16px !important; /* Prevents auto zoom on mobile */
+    padding: 10px 14px;
+  }
+  .input-area button[type="submit"] {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+  .attach-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+  .chat-header {
+    padding: 10px 14px;
+  }
+  .chat-header h2 {
+    font-size: 17px;
+  }
+  .messages-area {
+    padding: 15px 10px;
+  }
+  .auth-box {
+    width: 90%;
+    max-width: 340px;
+    padding: 25px 20px;
+  }
+  .auth-box input {
+    font-size: 16px !important; /* Prevents auto-zoom on mobile auth */
+  }
+}
